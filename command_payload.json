@@ -1,0 +1,63 @@
+{
+	"name": "trello",
+	"description": "Interact with Trello from Discord",
+	"options": [
+		{
+			"type": 1,
+			"name": "create",
+			"description": "Create a new card in Trello.",
+			"options": [
+				{
+					"type": 3,
+					"name": "name",
+					"description": "Name of new Trello Card",
+					"required": true
+				},
+				{
+					"type": 3,
+					"name": "description",
+					"description": "Description of new Trello Card.",
+					"required": false
+				},
+				{
+					"type": 5,
+					"name": "add-users",
+					"description": "Bring up a prompt in Discord so that users can be added to the new Trello Card.",
+					"required": false
+				}
+			]
+		},
+		{
+			"type": 1,
+			"name": "login",
+			"description": "Authenticate with Trello"
+		},
+		{
+			"type": 1,
+			"name": "logout",
+			"description": "Revoke access to Trello"
+		},
+		{
+			"type": 2,
+			"name": "config",
+			"description": "Configure your Trello Integration",
+			"options": [
+				{
+					"type": 1,
+					"name": "board",
+					"description": "Change the board this Guild is synced to (Admin Only)."
+				},
+				{
+					"type": 1,
+					"name": "list",
+					"description": "Change the Trello List that created Cards are placed into (Admin Only)."
+				},
+				{
+					"type": 1,
+					"name": "subscriptions",
+					"description": "Select which Trello Boards you would like to subscribe to."
+				}
+			]
+		}
+	]
+}
