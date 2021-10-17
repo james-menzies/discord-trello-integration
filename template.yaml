@@ -1,0 +1,44 @@
+Parameters:
+  DiscordBotToken:
+    Type: String
+    Default: '{{resolve:ssm-secure:discord-bot-token}}'
+    Description: Discord Bot Token for Trello to make return requests
+  DiscordPublicKey:
+    Type: String
+    Default: '{{resolve:ssm-secure:discord-public-key}}'
+    Description: Public Key of the Trello-Discord Application which is required to authenticate Discord Interactions
+  TrelloApiKey:
+    Type: String
+    Default: '{{resolve:ssm-secure:trello-api-key}}'
+    Description: Usedas part of the OAuth flow to obtain user tokens.
+  TrelloSecretKey:
+    Type: String
+    Default: '{{resolve:ssm-secure:trello-secret-key}}'
+    Description: Used as part of the OAuth flow to obtain user tokens.
+
+
+
+
+Resources:
+  DiscordInteractionEndpoint:
+    Type: AWS::Serverless::Function
+    Events:
+      - Type: HttpApi
+        Properties:
+          Method: POST
+          Path: "/discord"
+
+  GuildTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: guild_id
+        Type: Number
+      TableName: dti_guilds
+  UserTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: discord_id
+        Type: Number
+      TableName: dti_users
