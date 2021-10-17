@@ -15,19 +15,24 @@ Parameters:
     Type: String
     Default: '{{resolve:ssm-secure:trello-secret-key}}'
     Description: Used as part of the OAuth flow to obtain user tokens.
-
-
-
-
 Resources:
   DiscordInteractionEndpoint:
     Type: AWS::Serverless::Function
-    Events:
-      - Type: HttpApi
-        Properties:
-          Method: POST
-          Path: "/discord"
-
+    Properties:
+      Environment:
+        Variables:
+          DISCORD_PUBLIC_KEY: supersecret
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            Method: POST
+            Path: "/discord"
+      PackageType: Image
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./src/discord_interaction
+      DockerTag: v1
   GuildTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
