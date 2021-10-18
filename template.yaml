@@ -1,38 +1,38 @@
+Transform: AWS::Serverless-2016-10-31
 Parameters:
   DiscordBotToken:
     Type: String
-    Default: '{{resolve:ssm-secure:discord-bot-token}}'
+    Default: '{{resolve:secretsmanager:discord-secrets:SecretString:discord-bot-token}}'
     Description: Discord Bot Token for Trello to make return requests
   DiscordPublicKey:
     Type: String
-    Default: '{{resolve:ssm-secure:discord-public-key}}'
+    Default: '{{resolve:secretsmanager:discord-secrets:SecretString:discord-public-key}}'
     Description: Public Key of the Trello-Discord Application which is required to authenticate Discord Interactions
   TrelloApiKey:
     Type: String
-    Default: '{{resolve:ssm-secure:trello-api-key}}'
-    Description: Usedas part of the OAuth flow to obtain user tokens.
+    Default: '{{resolve:secretsmanager:discord-secrets:SecretString:trello-api-key}}'
+    Description: Used as part of the OAuth flow to obtain user tokens.
   TrelloSecretKey:
     Type: String
-    Default: '{{resolve:ssm-secure:trello-secret-key}}'
+    Default: '{{resolve:secretsmanager:discord-secrets:SecretString:trello-secret-key}}'
     Description: Used as part of the OAuth flow to obtain user tokens.
 Resources:
   DiscordInteractionEndpoint:
     Type: AWS::Serverless::Function
     Properties:
+      CodeUri: ./discord_interaction
       Environment:
         Variables:
-          DISCORD_PUBLIC_KEY: supersecret
+          DISCORD_PUBLIC_KEY: !Ref DiscordPublicKey
       Events:
         ApiEvent:
           Type: HttpApi
           Properties:
             Method: POST
             Path: "/discord"
-      PackageType: Image
-    Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./src/discord_interaction
-      DockerTag: v1
+      Handler: lambda_handler.handler
+      PackageType: Zip
+      Runtime: python3.9
   GuildTable:
     Type: AWS::Serverless::SimpleTable
     Properties:

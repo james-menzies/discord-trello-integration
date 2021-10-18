@@ -1,0 +1,12 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "discord-test"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-rnrtdcqlkt87"
+s3_prefix = "discord-test"
+region = "ap-southeast-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "DiscordBotToken=\"{{resolve:secretsmanager:discord-secrets:SecretString:discord-bot-token}}\" DiscordPublicKey=\"{{resolve:secretsmanager:discord-secrets:SecretString:discord-public-key}}\" TrelloApiKey=\"{{resolve:secretsmanager:discord-secrets:SecretString:trello-api-key}}\" TrelloSecretKey=\"{{resolve:secretsmanager:discord-secrets:SecretString:trello-secret-key}}\""
+image_repositories = []
