@@ -2,19 +2,19 @@ Transform: AWS::Serverless-2016-10-31
 Parameters:
   DiscordBotToken:
     Type: String
-    Default: '{{resolve:secretsmanager:discord-secrets:SecretString:discord-bot-token}}'
+    Default: '{{resolve:secretsmanager:discord_interaction-secrets:SecretString:discord_interaction-bot-token}}'
     Description: Discord Bot Token for Trello to make return requests
   DiscordPublicKey:
     Type: String
-    Default: '{{resolve:secretsmanager:discord-secrets:SecretString:discord-public-key}}'
+    Default: '{{resolve:secretsmanager:discord_interaction-secrets:SecretString:discord_interaction-public-key}}'
     Description: Public Key of the Trello-Discord Application which is required to authenticate Discord Interactions
   TrelloApiKey:
     Type: String
-    Default: '{{resolve:secretsmanager:discord-secrets:SecretString:trello-api-key}}'
+    Default: '{{resolve:secretsmanager:discord_interaction-secrets:SecretString:trello-api-key}}'
     Description: Used as part of the OAuth flow to obtain user tokens.
   TrelloSecretKey:
     Type: String
-    Default: '{{resolve:secretsmanager:discord-secrets:SecretString:trello-secret-key}}'
+    Default: '{{resolve:secretsmanager:discord_interaction-secrets:SecretString:trello-secret-key}}'
     Description: Used as part of the OAuth flow to obtain user tokens.
 Resources:
   DiscordInteractionEndpoint:
@@ -29,7 +29,7 @@ Resources:
           Type: HttpApi
           Properties:
             Method: POST
-            Path: "/discord"
+            Path: "/discord_interaction"
       Handler: lambda_handler.handler
       PackageType: Zip
       Runtime: python3.9
