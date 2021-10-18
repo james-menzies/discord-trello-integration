@@ -1,4 +1,5 @@
 {
+  "_comment": "Similar to the other auth file, however uses an invalid signature",
   "body": "{\"type\":1}",
   "resource": "/{proxy+}",
   "path": "/path/to/resource",
@@ -38,7 +39,7 @@
     "X-Forwarded-Port": "443",
     "X-Forwarded-Proto": "https",
     "x-signature-timestamp": 1634256650,
-    "x-signature-ed25519": "1ffe670c50bdb2ac220ccd34fae31d37428ae685c3482c86827850f32e6523cc65a19d760a1ce9f40855006070d128edfeef97036c28eae494b0358f7de4a705"
+    "x-signature-ed25519": "1ffe6e0c50bdb2ac220ccd34fae31d37428ae685c3482c86827850f32e6523cc65a19d760a1ce9f40855006070d128edfeef97036c28eae494b0358f7de4a705"
   },
   "multiValueHeaders": {
     "Accept": [
