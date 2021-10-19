@@ -18,3 +18,7 @@ def test_invalid_auth(client):
 
 
 
+def test_login(client):
+
+    response = invoke_lambda(client, "DiscordInteractionEndpoint", "discord_interaction_login.json")
+    print(response)

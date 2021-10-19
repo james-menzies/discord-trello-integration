@@ -6,6 +6,7 @@ import boto3
 from nacl.exceptions import BadSignatureError
 from nacl.signing import VerifyKey
 
+
 def build_payload(body: dict, statusCode: int = 200) -> dict:
     """
     Builds an appropriate payload for the API Gateway interface.
@@ -27,7 +28,6 @@ def build_payload(body: dict, statusCode: int = 200) -> dict:
 
 
 def handler(event, context):
-
     # Verify authenticity of request
     response = unauthorized_request(event)
     if response:
@@ -38,12 +38,24 @@ def handler(event, context):
     if 'type' not in body:
         return build_payload({}, 400)
 
+
     if body['type'] == 1:
         return build_payload({'type': 1})
 
-    return build_payload({}, 200)
+    if not (body['type'] == 2 and
+            body['data']['name'] == 'trello'):
+        return build_payload({}, 400)
 
+    db = boto3.resource('dynamodb', endpoint_url='http://trello-db:8000')
+    user_id = int(body['member']['user']['id'])
 
+    user = db.Table('dti_users').get_item(
+        Key={'discord_user_id': user_id}
+    )['Item']
+
+    user = user['access_token']
+
+    return build_payload({'user': user})
 
 
 def unauthorized_request(event) -> Optional[dict]:
@@ -88,6 +100,3 @@ def unauthorized_request(event) -> Optional[dict]:
         vk.verify(f'{timestamp}{body}'.encode(), bytes.fromhex(signature))
     except BadSignatureError:
         return build_payload({}, 401)
-
-
-

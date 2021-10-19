@@ -5,9 +5,11 @@ import boto3
 import botocore
 import pytest
 
+from tests.initdb import init_db, add_user, User
+
 
 @pytest.fixture(scope="session")
-def client():
+def bare_client():
     return boto3.client('lambda',
                         region_name="ap-southeast-2",
                         endpoint_url="http://127.0.0.1:3001",
@@ -15,9 +17,18 @@ def client():
                         verify=False,
                         config=botocore.client.Config(
                             signature_version=botocore.UNSIGNED,
-                            read_timeout=1,
+                            read_timeout=2,
                             retries={'max_attempts': 0}
                         ))
+
+
+@pytest.fixture(scope="function")
+def client(bare_client):
+    init_db()
+    add_user(User(1, "1"))
+    return bare_client
+
+
 
 
 EVENTS_DIRECTORY = Path.cwd() / "events"

@@ -2,19 +2,17 @@ version: "3.5"
 
 services:
   dynamo-db:
-    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /data"
     container_name: trello-db
     image: amazon/dynamodb-local
     networks:
       - trello
     ports:
       - "8000:8000"
-    volumes:
-      - dbdata:/data/
 
 networks:
   trello:
-    name: "Trello-Network"
+    name: "trello-network"
 
 volumes:
-  dbdata: {}
+  db:
+    driver: local
